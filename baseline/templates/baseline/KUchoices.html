@@ -1,0 +1,748 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<p>
+    You have chosen colours {{  cols }}. Now, if the colour of the drawn ball is <b>any of these colours</b>, you {{ winlose }} the bet. You choose from which bag (U or K) a ball is randomly drawn.
+</p>
+<table border="1" style="text-align:center;">
+    <tr>
+        <th colspan="2">Number of balls in Bag K</th>
+        <th rowspan="3" >&emsp;&emsp;&emsp;&emsp;K&emsp;</th>
+        <th rowspan="3" >&emsp;&emsp;&emsp;&emsp;U&emsp;</th>
+        <th colspan="2">Number of balls in Bag U</th>
+
+</tr>
+<tr>
+    <th>Outcome if balls drawn from here: <br>{{ prize }}</th>
+    <th>Outcome if balls drawn from here: <br>{{ lose }}</th>
+    <th>Outcome if balls drawn from here: <br>{{ prize }}</th>
+    <th>Outcome if balls drawn from here: <br>{{ lose }}</th>
+</tr>
+<tr>
+    <th>Number of balls of colours<br>{{ cols }}</th>
+    <th>Number of balls of <br>the other colours</th>
+    <th>Number of balls of colours<br> {{ cols }}</th>
+    <th>Number of balls of <br>the other colours</th>
+</tr>
+    <tr>
+        <th>0</th>
+        <th>100</th>
+        <th><label><input type="checkbox" name="K0" id="id_K0" /> Bag K</label></th>
+        <th><label><input type="checkbox" name="U0" id="id_U0" /> Bag U</label></th>
+        <th rowspan="11">Unknown</th>
+        <th rowspan="11">Remaining (100 – Unknown)</th>
+    </tr>
+    <tr>
+        <th>10</th>
+        <th>90</th>
+        <th><label><input type="checkbox" name="K1" id="id_K1" />Bag K</label></th>
+        <th><label><input type="checkbox" name="U1" id="id_U1" /> Bag U</label></th>
+
+    </tr>
+    <tr>
+        <th>20</th>
+        <th>80</th>
+        <th><label><input type="checkbox" name="K2" id="id_K2" />Bag K</label></th>
+        <th><label><input type="checkbox" name="U2" id="id_U2" /> Bag U</label></th>
+
+    </tr>
+    <tr>
+        <th>30</th>
+        <th>70</th>
+        <th><label><input type="checkbox" name="K3" id="id_K3" />Bag K</label></th>
+        <th><label><input type="checkbox" name="U3" id="id_U3" /> Bag U</label></th>
+    </tr>
+    <tr>
+        <th>40</th>
+        <th>60</th>
+        <th><label><input type="checkbox" name="K4" id="id_K4" />Bag K</label></th>
+        <th><label><input type="checkbox" name="U4" id="id_U4" />Bag U</label></th>
+
+    </tr>
+    <tr>
+        <th>50</th>
+        <th>50</th>
+        <th><label><input type="checkbox" name="K5" id="id_K5" />Bag K</label></th>
+        <th><label><input type="checkbox" name="U5" id="id_U5" />Bag U</label></th>
+
+    </tr>
+    <tr>
+        <th>60</th>
+        <th>40</th>
+        <th><label><input type="checkbox" name="K6" id="id_K6" />Bag K</label></th>
+        <th><label><input type="checkbox" name="KU" id="id_U6" />Bag U</label></th>
+
+    </tr>
+    <tr>
+        <th>70</th>
+        <th>30</th>
+        <th><label><input type="checkbox" name="K7" id="id_K7" />Bag K</label></th>
+        <th><label><input type="checkbox" name="U7" id="id_U7" />Bag U</label></th>
+    </tr>
+    <tr>
+        <th>80</th>
+        <th>20</th>
+        <th><label><input type="checkbox" name="K8" id="id_K8" />Bag K</label></th>
+        <th><label><input type="checkbox" name="U8" id="id_U8" />Bag U</label></th>
+
+    </tr>
+    <tr>
+        <th>90</th>
+        <th>10</th>
+        <th><label><input type="checkbox" name="K9" id="id_K9" />Bag K</label></th>
+        <th><label><input type="checkbox" name="U9" id="id_U9" />Bag U</label></th>
+
+    </tr>
+    <tr>
+        <th>100</th>
+        <th>0</th>
+        <th><label><input type="checkbox" name="K10" id="id_K10" />Bag K</label></th>
+        <th><label><input type="checkbox" name="U10" id="id_U10" />Bag U</label></th>
+
+    </tr>
+</table>
+</p>
+<script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script type="text/javascript">
+        function allFalse() {
+            $("#id_K0").prop("checked", false);
+            $("#id_K1").prop("checked", false);
+            $("#id_K2").prop("checked", false);
+            $("#id_K3").prop("checked", false);
+            $("#id_K4").prop("checked", false);
+            $("#id_K5").prop("checked", false);
+            $("#id_K6").prop("checked", false);
+            $("#id_K7").prop("checked", false);
+            $("#id_K8").prop("checked", false);
+            $("#id_K9").prop("checked", false);
+            $("#id_K10").prop("checked", false);
+
+        }
+        function allFalseU() {
+            $("#id_U0").prop("checked", false);
+            $("#id_U1").prop("checked", false);
+            $("#id_U2").prop("checked", false);
+            $("#id_U3").prop("checked", false);
+            $("#id_U4").prop("checked", false);
+            $("#id_U5").prop("checked", false);
+            $("#id_U6").prop("checked", false);
+            $("#id_U7").prop("checked", false);
+            $("#id_U8").prop("checked", false);
+            $("#id_U9").prop("checked", false);
+            $("#id_U10").prop("checked", false);
+
+        }
+        $(document).ready(function(){
+            allFalse();
+            allFalseU();
+            $('#id_U0').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", true);
+                        $("#id_K2").prop("checked", true);
+                        $("#id_K3").prop("checked", true);
+                        $("#id_K4").prop("checked", true);
+                        $("#id_K5").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U1').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", true);
+                        $("#id_K3").prop("checked", true);
+                        $("#id_K4").prop("checked", true);
+                        $("#id_K5").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U2').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+
+
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", true);
+                        $("#id_K4").prop("checked", true);
+                        $("#id_K5").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U3').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", true);
+                        $("#id_K5").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U4').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U5').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U6').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K6").prop("checked", false);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U7').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+                        $("#id_U6").prop("checked", true);
+
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K6").prop("checked", false);
+                        $("#id_K7").prop("checked", false);
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U8').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+                        $("#id_U6").prop("checked", true);
+                        $("#id_U7").prop("checked", true);
+
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K6").prop("checked", false);
+                        $("#id_K7").prop("checked", false);
+                        $("#id_K8").prop("checked", false);
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U9').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+                        $("#id_U6").prop("checked", true);
+                        $("#id_U7").prop("checked", true);
+                        $("#id_U8").prop("checked", true);
+
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K6").prop("checked", false);
+                        $("#id_K7").prop("checked", false);
+                        $("#id_K8").prop("checked", false);
+                        $("#id_K9").prop("checked", false);
+                        $("#id_K10").prop("checked", true);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_U10').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+                        $("#id_U6").prop("checked", true);
+                        $("#id_U7").prop("checked", true);
+                        $("#id_U8").prop("checked", true);
+                        $("#id_U9").prop("checked", true);
+
+                        allFalse();
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_K10').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K6").prop("checked", false);
+                        $("#id_K7").prop("checked", false);
+                        $("#id_K8").prop("checked", false);
+                        $("#id_K9").prop("checked", false);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+                        $("#id_U6").prop("checked", true);
+                        $("#id_U7").prop("checked", true);
+                        $("#id_U8").prop("checked", true);
+                        $("#id_U9").prop("checked", true);
+                        $("#id_U10").prop("checked", false);
+
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalseU();
+                        allFalse();
+                    }
+            });
+            $('#id_K9').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K6").prop("checked", false);
+                        $("#id_K7").prop("checked", false);
+                        $("#id_K8").prop("checked", false);
+                        $("#id_K10").prop("checked", true);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+                        $("#id_U6").prop("checked", true);
+                        $("#id_U7").prop("checked", true);
+                        $("#id_U8").prop("checked", true);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+            $('#id_K8').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K6").prop("checked", false);
+                        $("#id_K7").prop("checked", false);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K9").prop("checked", true);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+                        $("#id_U6").prop("checked", true);
+                        $("#id_U7").prop("checked", true);
+                        $("#id_U8").prop("checked", false);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+            $('#id_K7').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K6").prop("checked", false);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+                        $("#id_U6").prop("checked", true);
+                        $("#id_U7").prop("checked", false);
+                        $("#id_U8").prop("checked", false);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+            $('#id_K6').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K5").prop("checked", false);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", true);
+                        $("#id_U6").prop("checked", false);
+                        $("#id_U7").prop("checked", false);
+                        $("#id_U8").prop("checked", false);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+            $('#id_K5').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K4").prop("checked", false);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", true);
+                        $("#id_U5").prop("checked", false);
+                        $("#id_U6").prop("checked", false);
+                        $("#id_U7").prop("checked", false);
+                        $("#id_U8").prop("checked", false);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+            $('#id_K4').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K3").prop("checked", false);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K5").prop("checked", true);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", true);
+                        $("#id_U4").prop("checked", false);
+                        $("#id_U5").prop("checked", false);
+                        $("#id_U6").prop("checked", false);
+                        $("#id_U7").prop("checked", false);
+                        $("#id_U8").prop("checked", false);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+            $('#id_K3').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K2").prop("checked", false);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K4").prop("checked", true);
+                        $("#id_K5").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", true);
+                        $("#id_U3").prop("checked", false);
+                        $("#id_U4").prop("checked", false);
+                        $("#id_U5").prop("checked", false);
+                        $("#id_U6").prop("checked", false);
+                        $("#id_U7").prop("checked", false);
+                        $("#id_U8").prop("checked", false);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+            $('#id_K2').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K1").prop("checked", false);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                        $("#id_K3").prop("checked", true);
+                        $("#id_K4").prop("checked", true);
+                        $("#id_K5").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", true);
+                        $("#id_U2").prop("checked", false);
+                        $("#id_U3").prop("checked", false);
+                        $("#id_U4").prop("checked", false);
+                        $("#id_U5").prop("checked", false);
+                        $("#id_U6").prop("checked", false);
+                        $("#id_U7").prop("checked", false);
+                        $("#id_U8").prop("checked", false);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+            $('#id_K1').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K0").prop("checked", false);
+                        $("#id_K9").prop("checked", true);
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K2").prop("checked", true);
+                        $("#id_K3").prop("checked", true);
+                        $("#id_K4").prop("checked", true);
+                        $("#id_K5").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+
+                        $("#id_U0").prop("checked", true);
+                        $("#id_U1").prop("checked", false);
+                        $("#id_U2").prop("checked", false);
+                        $("#id_U3").prop("checked", false);
+                        $("#id_U4").prop("checked", false);
+                        $("#id_U5").prop("checked", false);
+                        $("#id_U6").prop("checked", false);
+                        $("#id_U7").prop("checked", false);
+                        $("#id_U8").prop("checked", false);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+            $('#id_K0').change(function(){
+                    if ($(this).is(':checked')) {
+                        $("#id_K10").prop("checked", true);
+                        $("#id_K1").prop("checked", true);
+                        $("#id_K2").prop("checked", true);
+                        $("#id_K3").prop("checked", true);
+                        $("#id_K4").prop("checked", true);
+                        $("#id_K5").prop("checked", true);
+                        $("#id_K6").prop("checked", true);
+                        $("#id_K7").prop("checked", true);
+                        $("#id_K8").prop("checked", true);
+                        $("#id_K9").prop("checked", true);
+
+                        $("#id_U0").prop("checked", false);
+                        $("#id_U1").prop("checked", false);
+                        $("#id_U2").prop("checked", false);
+                        $("#id_U3").prop("checked", false);
+                        $("#id_U4").prop("checked", false);
+                        $("#id_U5").prop("checked", false);
+                        $("#id_U6").prop("checked", false);
+                        $("#id_U7").prop("checked", false);
+                        $("#id_U8").prop("checked", false);
+                        $("#id_U9").prop("checked", false);
+                        $("#id_U10").prop("checked", false);
+                    }
+                    if ($(this).is(':checked') == false) {
+                        allFalse();
+                        allFalseU();
+                    }
+            });
+
+        });
+                 </script>
+
+
+    {% next_button %}
+
+{% endblock %}

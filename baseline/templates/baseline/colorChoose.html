@@ -1,0 +1,19 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Color Choose
+{% endblock %}
+
+{% block content %}
+<p>
+    Please bet on <b>{{ col_num}}</b> colors.<br>
+
+
+    {% formfield player.colors %}
+</p>
+
+
+    {% next_button %}
+
+{% endblock %}
