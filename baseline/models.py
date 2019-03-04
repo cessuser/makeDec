@@ -10,6 +10,9 @@ author = 'Danlin Chen'
 
 doc = """
 Francesco experiment baseline 
+picture from:
+South Sudanese children starving while aid falling short ...
+worldhunger.org
 """
 
 KS = [
@@ -23,6 +26,18 @@ KS = [
     ('Grey', 'Grey'),
     ('Brown', 'Brown'),
     ('Black', 'Black')
+]
+REGIONS = [
+    ('Region 1', 'Region 1'),
+    ('Region 2', 'Region 2'),
+    ('Region 3', 'Region 3'),
+    ('Region 4', 'Region 4'),
+    ('Region 5', 'Region 5'),
+    ('Region 6', 'Region 6'),
+    ('Region 7', 'Region 7'),
+    ('Region 8', 'Region 8'),
+    ('Region 9', 'Region 9'),
+    ('Region 10', 'Region 10'),
 ]
 K_KS = [
     (0, 'Bag K'),
@@ -76,6 +91,7 @@ class Group(BaseGroup):
 
 class Player(BasePlayer):
     colors = models.StringField(widget=forms.CheckboxSelectMultiple(choices=KS), label=' ')
+    regions = models.StringField(widget=forms.CheckboxSelectMultiple(choices=REGIONS), label=' ')
 
     K0 = models.BooleanField(widget=widgets.CheckboxInput, label='Bag K')
     K1 = models.BooleanField(widget=widgets.CheckboxInput, label='Bag K')
@@ -129,8 +145,8 @@ class Player(BasePlayer):
 
 
     def p_tens(self):
-
         if self.K0:
+            self.p = -1
             return -1
         if self.K0 != self.K1:
             return 0
@@ -159,8 +175,7 @@ class Player(BasePlayer):
 
     def store_p(self):
         p = self.ten
-
-
+        print("++++++++++++++++++p: ", self.ten, ' ', self.K0, ' ', self.K1)
         if self.ten1:
             p = self.ten
         elif self.ten1 != self.ten2:
@@ -213,7 +228,9 @@ class Player(BasePlayer):
         if cur_ten == 100:
             print('all U')
             ball_cols = ['Yellow','Orange','Red', 'Purple', 'Pink', 'Blue', 'Green', 'Grey', 'Brown', 'Black']
-            balls = [random.choices[ball_cols] for i in range(0,100)]
+            if self.session.config['trt'] == 4:
+                ball_cols = ['Region 1','Region 2','Region 3','Region 4','Region 5','Region 6','Region 7','Region 8', 'Region 9','Region 10']
+            balls = [random.choices(ball_cols) for i in range(0,100)]
 
             num_chosen_cols = 0
             for col in cur_cols:
@@ -224,7 +241,10 @@ class Player(BasePlayer):
                 win = np.random.choice(np.arange(0, 2), p=[1 - cur_q / 100.0, cur_q / 100.0])
             else:
                 ball_cols = ['Yellow', 'Orange', 'Red', 'Purple', 'Pink', 'Blue', 'Green', 'Grey', 'Brown', 'Black']
-                balls = [random.choices[ball_cols] for i in range(0, 100)]
+                if self.session.config['trt'] == 4:
+                    ball_cols = ['Region 1', 'Region 2', 'Region 3', 'Region 4', 'Region 5', 'Region 6', 'Region 7',
+                                 'Region 8', 'Region 9', 'Region 10']
+                balls = [random.choices(ball_cols) for i in range(0, 100)]
 
                 num_chosen_cols = 0
                 for col in cur_cols:
@@ -233,14 +253,14 @@ class Player(BasePlayer):
 
         if win == 1:
             if self.chosen_sec == 3:
-                self.payoff = 20
+                self.payoff = self.session.config['prize']
             else:
                 self.payoff = 0
         else:
             if self.chosen_sec == 3:
                 self.payoff = 0
             else:
-                self.payoff = 10
+                self.payoff = self.session.config['prize']
 
 
 

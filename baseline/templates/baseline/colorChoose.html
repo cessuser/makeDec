@@ -2,15 +2,26 @@
 {% load otree static %}
 
 {% block title %}
+{% if trt != 4 %}
     Color Choose
+{% else %}
+    Region Choose
+{% endif %}
 {% endblock %}
 
 {% block content %}
 <p>
+    {% if trt == 3 %}
+    The majority of people in a previous similar session has chosen Bag K for every p greater than {{ x }}.<br>
+    {% endif %}
+    {% if trt != 4 %}
     Please bet on <b>{{ col_num}}</b> colors.<br>
-
-
     {% formfield player.colors %}
+    {% else %}
+    Please bet on <b>{{ col_num}}</b> regions.<br>
+    {% formfield player.regions %}
+    {% endif %}
+
 </p>
 
 

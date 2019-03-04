@@ -1,0 +1,21 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+{% endblock %}
+
+{% block content %}
+<table>
+<td>
+    <p>
+    We now ask you to bet on regions in South Sudan. More specifically, the child in the picture on the right is one of the many children whose life has been positively affected by the charitable programme NAME OF THE CHARITY. In particular, the child improved education outcomes and health conditions. The child comes from 1 of 100 villages in South Sudan, and villages are distributed over 10 possible regions: Region1, Region2, .., Region10. You now bet on the region of the village of residence of the child. Then you choose the value for which you prefer the ball drawn from Bag K or Bag U. Now each ball correspond to one village.
+    </p>
+</td>
+    <td>
+        <img src="{% static "baseline/child.jpg" %}" height="500">
+    </td>
+</table>
+
+    {% next_button %}
+
+{% endblock %}
