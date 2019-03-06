@@ -1,0 +1,53 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Questionnaire
+{% endblock %}
+{% block content %}
+<p>
+    We remind you that all answers and information will be completely anonymised, confidential and known only to the researchers involved in the study and cannot be linked back to your responses to the study.
+</p>
+{% formfield player.age %}
+{% formfield player.gender %}
+{% formfield player.Nationality %}
+{% formfield player.Job_status %}
+{% formfield player.Marital_status %}
+{% formfield player.Annual_household_income %}
+{% formfield player.Household_size %}
+{% formfield player.Education_level %}
+{% formfield player.Education_discipline %}
+{% formfield player.Charity%}
+{% formfield player.Satisfaction_experiment %}
+{% formfield player.Health_status %}
+{% formfield player.severe_disease %}
+{% formfield player.disease_explain %}
+{% formfield player.ongoing_disease %}
+{% formfield player.ongoing_disease_explain %}
+{% formfield player.smoke %}
+{% formfield player.drink %}
+{% formfield player.height %}
+{% formfield player.weight %}
+{% formfield player.seat_belt %}
+{% formfield player.over_speed %}
+
+<p>
+    Political preferences
+</p>
+<div class="slider-wrapper">
+    -10(Left)
+  <input type="range" min="-10" max="10" step="1" name="Political_preferences" value="None" id="id_political" required>
+    10(Right)
+</div>
+<br>
+<p>
+    Environmental preferences
+</p>
+<div class="slider-wrapper">
+    -10(Left)
+  <input type="range" min="-10" max="10" step="1" name="Environmental_preferences" value="None" id="id_environment" required>
+    10(Right)
+</div>
+    {% next_button %}
+
+{% endblock %}

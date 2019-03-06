@@ -63,13 +63,129 @@ class KUtensChoices0(Page):
         }
 
 
-class KUtensChoices0(Page):
+class KUtensChoices1(Page):
     form_model = models.Player
     form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
 
     def is_displayed(self):
-        return self.player.p_tens() == 0
+        return self.player.p_tens() == 10
+
+    def vars_for_template(self):
+        print("p_tens", self.player.p_tens())
+        self.player.ten = self.player.p_tens()
+
+        cols = Constants.supplements[self.round_number-1]
+
+        return {
+            'cols': cols,
+            'k0': 'checked',
+            'ten1': self.player.ten+1,
+            'ten2': self.player.ten + 2,
+            'ten3': self.player.ten + 3,
+            'ten4': self.player.ten + 4,
+            'ten5': self.player.ten + 5,
+            'ten6': self.player.ten + 6,
+            'ten7': self.player.ten + 7,
+            'ten8': self.player.ten + 8,
+            'ten9': self.player.ten + 9,
+
+        }
+
+class KUtensChoices2(Page):
+    form_model = models.Player
+    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
+                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
+
+    def is_displayed(self):
+        return self.player.p_tens() == 20
+
+    def vars_for_template(self):
+        print("p_tens", self.player.p_tens())
+        self.player.ten = self.player.p_tens()
+
+        cols = Constants.supplements[self.round_number-1]
+
+        return {
+            'cols': cols,
+            'k0': 'checked',
+            'ten1': self.player.ten+1,
+            'ten2': self.player.ten + 2,
+            'ten3': self.player.ten + 3,
+            'ten4': self.player.ten + 4,
+            'ten5': self.player.ten + 5,
+            'ten6': self.player.ten + 6,
+            'ten7': self.player.ten + 7,
+            'ten8': self.player.ten + 8,
+            'ten9': self.player.ten + 9,
+
+        }
+
+class KUtensChoices3(Page):
+    form_model = models.Player
+    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
+                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
+
+    def is_displayed(self):
+        return self.player.p_tens() == 30
+
+    def vars_for_template(self):
+        print("p_tens", self.player.p_tens())
+        self.player.ten = self.player.p_tens()
+
+        cols = Constants.supplements[self.round_number-1]
+
+        return {
+            'cols': cols,
+            'k0': 'checked',
+            'ten1': self.player.ten+1,
+            'ten2': self.player.ten + 2,
+            'ten3': self.player.ten + 3,
+            'ten4': self.player.ten + 4,
+            'ten5': self.player.ten + 5,
+            'ten6': self.player.ten + 6,
+            'ten7': self.player.ten + 7,
+            'ten8': self.player.ten + 8,
+            'ten9': self.player.ten + 9,
+
+        }
+
+class KUtensChoices4(Page):
+    form_model = models.Player
+    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
+                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
+
+    def is_displayed(self):
+        return self.player.p_tens() == 40
+
+    def vars_for_template(self):
+        print("p_tens", self.player.p_tens())
+        self.player.ten = self.player.p_tens()
+
+        cols = Constants.supplements[self.round_number-1]
+
+        return {
+            'cols': cols,
+            'k0': 'checked',
+            'ten1': self.player.ten+1,
+            'ten2': self.player.ten + 2,
+            'ten3': self.player.ten + 3,
+            'ten4': self.player.ten + 4,
+            'ten5': self.player.ten + 5,
+            'ten6': self.player.ten + 6,
+            'ten7': self.player.ten + 7,
+            'ten8': self.player.ten + 8,
+            'ten9': self.player.ten + 9,
+
+        }
+
+class KUtensChoices5(Page):
+    form_model = models.Player
+    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
+                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
+
+    def is_displayed(self):
+        return self.player.p_tens() == 50
 
     def vars_for_template(self):
         print("p_tens", self.player.p_tens())
@@ -93,6 +209,122 @@ class KUtensChoices0(Page):
         }
 
 
+class KUtensChoices6(Page):
+    form_model = models.Player
+    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
+                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
+
+    def is_displayed(self):
+        return self.player.p_tens() == 60
+
+    def vars_for_template(self):
+        print("p_tens", self.player.p_tens())
+        self.player.ten = self.player.p_tens()
+
+        cols = Constants.supplements[self.round_number-1]
+
+        return {
+            'cols': cols,
+            'k0': 'checked',
+            'ten1': self.player.ten+1,
+            'ten2': self.player.ten + 2,
+            'ten3': self.player.ten + 3,
+            'ten4': self.player.ten + 4,
+            'ten5': self.player.ten + 5,
+            'ten6': self.player.ten + 6,
+            'ten7': self.player.ten + 7,
+            'ten8': self.player.ten + 8,
+            'ten9': self.player.ten + 9,
+
+        }
+
+class KUtensChoices7(Page):
+    form_model = models.Player
+    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
+                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
+
+    def is_displayed(self):
+        return self.player.p_tens() == 70
+
+    def vars_for_template(self):
+        print("p_tens", self.player.p_tens())
+        self.player.ten = self.player.p_tens()
+
+        cols = Constants.supplements[self.round_number-1]
+
+        return {
+            'cols': cols,
+            'k0': 'checked',
+            'ten1': self.player.ten+1,
+            'ten2': self.player.ten + 2,
+            'ten3': self.player.ten + 3,
+            'ten4': self.player.ten + 4,
+            'ten5': self.player.ten + 5,
+            'ten6': self.player.ten + 6,
+            'ten7': self.player.ten + 7,
+            'ten8': self.player.ten + 8,
+            'ten9': self.player.ten + 9,
+
+        }
+
+class KUtensChoices8(Page):
+    form_model = models.Player
+    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
+                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
+
+    def is_displayed(self):
+        return self.player.p_tens() == 80
+
+    def vars_for_template(self):
+        print("p_tens", self.player.p_tens())
+        self.player.ten = self.player.p_tens()
+
+        cols = Constants.supplements[self.round_number-1]
+
+        return {
+            'cols': cols,
+            'k0': 'checked',
+            'ten1': self.player.ten+1,
+            'ten2': self.player.ten + 2,
+            'ten3': self.player.ten + 3,
+            'ten4': self.player.ten + 4,
+            'ten5': self.player.ten + 5,
+            'ten6': self.player.ten + 6,
+            'ten7': self.player.ten + 7,
+            'ten8': self.player.ten + 8,
+            'ten9': self.player.ten + 9,
+
+        }
+
+
+class KUtensChoices9(Page):
+    form_model = models.Player
+    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
+                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
+
+    def is_displayed(self):
+        return self.player.p_tens() == 90
+
+    def vars_for_template(self):
+        print("p_tens", self.player.p_tens())
+        self.player.ten = self.player.p_tens()
+
+        cols = Constants.supplements[self.round_number-1]
+
+        return {
+            'cols': cols,
+            'k0': 'checked',
+            'ten1': self.player.ten+1,
+            'ten2': self.player.ten + 2,
+            'ten3': self.player.ten + 3,
+            'ten4': self.player.ten + 4,
+            'ten5': self.player.ten + 5,
+            'ten6': self.player.ten + 6,
+            'ten7': self.player.ten + 7,
+            'ten8': self.player.ten + 8,
+            'ten9': self.player.ten + 9,
+
+        }
 
 class OutcomeWait(WaitPage):
 
@@ -122,6 +354,15 @@ page_sequence = [
     Intro,
     KUchoices,
     KUtensChoices0,
+    KUtensChoices1,
+    KUtensChoices2,
+    KUtensChoices3,
+    KUtensChoices4,
+    KUtensChoices5,
+    KUtensChoices6,
+    KUtensChoices7,
+    KUtensChoices8,
+    KUtensChoices9,
     OutcomeWait,
     Results
 ]

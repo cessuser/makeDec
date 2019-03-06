@@ -16,7 +16,7 @@ SESSION_CONFIGS = [
         'name': 'Baseline_trt1',
         'display_name': "trt1",
         'num_demo_participants': 1,
-        'app_sequence': ['baseline'],
+        'app_sequence': ['baseline','questionnaire'],
         'x': 0,
         'prize': 20,
 
@@ -25,7 +25,7 @@ SESSION_CONFIGS = [
         'name': 'Baseline_trt2',
         'display_name': "trt2",
         'num_demo_participants': 1,
-        'app_sequence': ['baseline'],
+        'app_sequence': ['baseline','questionnaire'],
         'x':0,
         'prize': 10,
 
@@ -34,7 +34,7 @@ SESSION_CONFIGS = [
         'name': 'Baseline_trt3',
         'display_name': "trt3",
         'num_demo_participants': 1,
-        'app_sequence': ['baseline'],
+        'app_sequence': ['baseline','questionnaire'],
         'prize': 20,
         'trt': 3,
         'x': 2
@@ -43,7 +43,7 @@ SESSION_CONFIGS = [
         'name': 'Baseline_trt4',
         'display_name': "trt4",
         'num_demo_participants': 1,
-        'app_sequence': ['baseline'],
+        'app_sequence': ['baseline','questionnaire'],
         'trt':4,
         'x':0,
         'prize': 20,
@@ -52,10 +52,16 @@ SESSION_CONFIGS = [
         'name': 'trt5',
         'display_name': "trt5",
         'num_demo_participants': 1,
-        'app_sequence': ['trt5'],
+        'app_sequence': ['trt5','questionnaire'],
         'trt':4,
         'x':0,
         'prize': 20,
+    },
+{
+        'name': 'questionnaire',
+        'display_name': "questionnaire",
+        'num_demo_participants': 1,
+        'app_sequence': ['questionnaire'],
     },
 ]
 
