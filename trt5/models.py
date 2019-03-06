@@ -2,85 +2,27 @@ from otree.api import (
     models, widgets, BaseConstants, BaseSubsession, BaseGroup, BasePlayer,
     Currency as c, currency_range
 )
-from django import forms
 import random
 import numpy as np
 
-author = 'Danlin Chen'
+
+author = 'Danlin chen'
 
 doc = """
-Francesco experiment baseline 
-picture from:
-South Sudanese children starving while aid falling short ...
-worldhunger.org
+Your app description
 """
-
-KS = [
-    ('Yellow', 'Yellow'),
-    ('Orange', 'Orange'),
-    ('Red', 'Red'),
-    ('Purple', 'Purple'),
-    ('Pink', 'Pink'),
-    ('Blue', 'Blue'),
-    ('Green', 'Green'),
-    ('Grey', 'Grey'),
-    ('Brown', 'Brown'),
-    ('Black', 'Black')
-]
-REGIONS = [
-    ('Region 1', 'Region 1'),
-    ('Region 2', 'Region 2'),
-    ('Region 3', 'Region 3'),
-    ('Region 4', 'Region 4'),
-    ('Region 5', 'Region 5'),
-    ('Region 6', 'Region 6'),
-    ('Region 7', 'Region 7'),
-    ('Region 8', 'Region 8'),
-    ('Region 9', 'Region 9'),
-    ('Region 10', 'Region 10'),
-]
-K_KS = [
-    (0, 'Bag K'),
-    (10, 'Bag K'),
-    (20, 'Bag K'),
-    (30, 'Bag K'),
-    (40, 'Bag K'),
-    (50, 'Bag K'),
-    (60, 'Bag K'),
-    (70, 'Bag K'),
-    (80, 'Bag K'),
-    (90, 'Bag K'),
-    (100, 'Bag K'),
-]
-U_KS = [
-    (100, 'Bag U'),
-    (90, 'Bag U'),
-    (80, 'Bag U'),
-    (70, 'Bag U'),
-    (60, 'Bag U'),
-    (50, 'Bag U'),
-    (40, 'Bag U'),
-    (30, 'Bag U'),
-    (20, 'Bag U'),
-    (10, 'Bag U'),
-    (0, 'Bag U'),
-]
 
 
 class Constants(BaseConstants):
-    name_in_url = 'baseline'
+    name_in_url = 'trt5'
     players_per_group = None
-    num_rounds = 3
+    num_rounds = 6
 
-    prize = c(20)
-    lose = c(0)
+    supplements = [' S1 ', ' S1, S3, S5 ', ' S1, S3, S5, S7, S9 ', ' S2,S4,S6,S8,S10 ', 'S2, S4, S6, S7, S8, S9, S10 ', ' S2, S3, S4, S5, S6, S7, S8, S9, S10 ']
+    all_supp = ['S1' 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10']
 
 class Subsession(BaseSubsession):
-    def creating_session(self):
-        if self.round_number == 1:
-            self.session.vars['ten_var'] = []
-            self.session.vars['tens'] = []
-
+    pass
 
 
 class Group(BaseGroup):
@@ -90,9 +32,6 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    colors = models.StringField(widget=forms.CheckboxSelectMultiple(choices=KS), label=' ')
-    regions = models.StringField(widget=forms.CheckboxSelectMultiple(choices=REGIONS), label=' ')
-
     K0 = models.BooleanField(widget=widgets.CheckboxInput, label='Bag K')
     K1 = models.BooleanField(widget=widgets.CheckboxInput, label='Bag K')
     K2 = models.BooleanField(widget=widgets.CheckboxInput, label='Bag K')
@@ -139,10 +78,11 @@ class Player(BasePlayer):
 
     p = models.IntegerField()
 
-    chosen_sec = models.IntegerField()
+    chosen_supplements = models.StringField()
     chosen_sec_p = models.IntegerField()
     chosen_p = models.IntegerField()
-
+    chosen_row = models.IntegerField()
+    cured = models.BooleanField()
 
     def p_tens(self):
         if self.K0:
@@ -204,68 +144,43 @@ class Player(BasePlayer):
         self.participant.vars['p'].append(self.p)
 
     def set_payoff(self):
-        tens = self.participant.vars['tens']
-        cols = self.participant.vars['cols']
-        p = self.participant.vars['p']
-        cur_round = random.randint(0, 2)
+        cur_round = random.randint(0, Constants.num_rounds - 1) + 1
+        cur_supplements = Constants.supplements[cur_round-1]
+        cur_ten = self.participant.vars['tens'][cur_round-1]
+        cur_p = self.participant.vars['p'][cur_round-1]
+        cur_q = 0
 
-        self.chosen_sec = [3,1,5][cur_round]
+        self.chosen_supplements = cur_supplements
+        self.chosen_sec_p = cur_ten
+        self.chosen_p = cur_p
 
-        cur_cols = cols[cur_round]
-        cur_ten = tens[cur_round]
-        cur_p = p[cur_round] # value of p
-        self.chosen_sec_p = cur_p
-        cur_q = random.randint(0, 100) # choosen quesiton
-        if self.cur_ten == -1:
-            cur_q = random.randint([i*0 for i in range(0,11)])
 
-        self.chosen_p = cur_q
         win = 0
-        print('cur_cols ', cur_cols, ' cur_ten ', cur_ten, ' cur_p', cur_p, ' win ')
+        if cur_ten == -1: # all k
+            ten_lst = [i*10 for i in range(0,11)]
+            cur_q = random.choice(ten_lst)
+            win = np.random.choice(np.arange(0, 2), p=[1 - cur_q / 100.0, cur_q / 100.0]) # 0 is not cured
 
-        if cur_ten == -1:
-            print("all k")
-            win = np.random.choice(np.arange(0, 2), p=[1 - cur_q / 100.0, cur_q / 100.0])
-
-        if cur_ten == 100:
+        if cur_ten == 100: # all u
             print('all U')
-            ball_cols = ['Yellow','Orange','Red', 'Purple', 'Pink', 'Blue', 'Green', 'Grey', 'Brown', 'Black']
-            if self.session.config['trt'] == 4:
-                ball_cols = ['Region 1','Region 2','Region 3','Region 4','Region 5','Region 6','Region 7','Region 8', 'Region 9','Region 10']
-            balls = [random.choices(ball_cols) for i in range(0,100)]
+            diseases = [random.choice(Constants.all_supp) for i in range(0,100)]
+            cur_disease = random.choice(diseases)
+            cur_q = random.choice(ten_lst)
 
-            num_chosen_cols = 0
-            for col in cur_cols:
-                num_chosen_cols += balls.count(col)
-            win = np.random.choice(np.arange(0, 2), p=[1 - num_chosen_cols / 100.0, num_chosen_cols / 100.0])
-        if cur_ten not in [-1,100]:
+        if cur_ten not in [-1,100]: # not all u or k
+            cur_q = random.randint(0,100)
             if cur_q >= cur_p: # use k
                 win = np.random.choice(np.arange(0, 2), p=[1 - cur_q / 100.0, cur_q / 100.0])
             else:
-                ball_cols = ['Yellow', 'Orange', 'Red', 'Purple', 'Pink', 'Blue', 'Green', 'Grey', 'Brown', 'Black']
-                if self.session.config['trt'] == 4:
-                    ball_cols = ['Region 1', 'Region 2', 'Region 3', 'Region 4', 'Region 5', 'Region 6', 'Region 7',
-                                 'Region 8', 'Region 9', 'Region 10']
-                balls = [random.choices(ball_cols) for i in range(0, 100)]
+                diseases = [random.choice(Constants.all_supp) for i in range(0, 100)]
+                cur_disease = random.choice(diseases)
 
-                num_chosen_cols = 0
-                for col in cur_cols:
-                    num_chosen_cols += balls.count(col)
-                win = np.random.choice(np.arange(0, 2), p=[1 - num_chosen_cols / 100.0, num_chosen_cols / 100.0])
+                if cur_disease in cur_supplements:
+                    win = 1
+
+        self.chosen_row = cur_q
 
         if win == 1:
-            if self.chosen_sec == 3:
-                self.payoff = self.session.config['prize']
-            else:
-                self.payoff = 0
+            self.cured = True
         else:
-            if self.chosen_sec == 3:
-                self.payoff = 0
-            else:
-                self.payoff = self.session.config['prize']
-
-
-
-
-
-
+            self.cured = False

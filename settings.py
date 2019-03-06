@@ -14,7 +14,7 @@ SESSION_CONFIG_DEFAULTS = {
 SESSION_CONFIGS = [
     {
         'name': 'Baseline_trt1',
-        'display_name': "Baseline_trt1",
+        'display_name': "trt1",
         'num_demo_participants': 1,
         'app_sequence': ['baseline'],
         'x': 0,
@@ -23,7 +23,7 @@ SESSION_CONFIGS = [
     },
     {
         'name': 'Baseline_trt2',
-        'display_name': "Baseline_trt2",
+        'display_name': "trt2",
         'num_demo_participants': 1,
         'app_sequence': ['baseline'],
         'x':0,
@@ -32,7 +32,7 @@ SESSION_CONFIGS = [
     },
     {
         'name': 'Baseline_trt3',
-        'display_name': "Baseline_trt3",
+        'display_name': "trt3",
         'num_demo_participants': 1,
         'app_sequence': ['baseline'],
         'prize': 20,
@@ -41,9 +41,18 @@ SESSION_CONFIGS = [
     },
 {
         'name': 'Baseline_trt4',
-        'display_name': "Baseline_trt4",
+        'display_name': "trt4",
         'num_demo_participants': 1,
         'app_sequence': ['baseline'],
+        'trt':4,
+        'x':0,
+        'prize': 20,
+    },
+{
+        'name': 'trt5',
+        'display_name': "trt5",
+        'num_demo_participants': 1,
+        'app_sequence': ['trt5'],
         'trt':4,
         'x':0,
         'prize': 20,

@@ -1,0 +1,34 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Introduction
+{% endblock %}
+
+{% block content %}
+<p>
+        Imagine that a doctor diagnoses you with a certain disease. A worldwide established research shows that there are ten possible viruses causin your disease, they are mutually exclusive (you have only one of these viruses), and the rate of occurrence of the viruses is unknown. You have to receive a treatment against the diseases and you cannot abstain from the treatment. There is no way to diagnose which virus caused your disease. Your disease will be totally cured only if the real virus is treated. If you will be cured, you will have 30 years longer from now on in good health; otherwise, you will live only 1 year longer from now on in good health.
+    </p>
+
+    <table border="1">
+        <tr>
+            <th>
+                Treatment K
+            </th>
+            <th>
+                Treatment U
+            </th>
+        </tr>
+        <tr>
+            <td>
+                Treatment K cures the disease with a Known success rate. The success rate is known from experiences with previous patients. It uses a broad-spectrum antiviral supplement, which is not specific to any one of the viruses, but is generally effective for all viruses alike. If Treatment K cures the disease, then you will be cured and live 50 years longer from now on in good health: otherwise, you will live only 1 year longer from now on in good health.
+            </td>
+            <td>
+                Treatment U is new. It uses ten different supplements. We name the ten supplements S1, S2, S3, S4, S5, S6, S7, S8, S9, and S10. Each supplement is effective for the corresponding virus, that is S1 is only effective for V1, S2 for V2, etc. However, different supplements are not always available. You will therefore be treated only with the available supplements. Remember that there is no way to tell which viruses causes your disease. If the right supplement for the real virus is chosen, then you will be cured and live 30 years longer from now on in good health: otherwise, you will live only 1 year longer from now on in good health.
+            </td>
+        </tr>
+    </table>
+<br>
+    {% next_button %}
+
+{% endblock %}
