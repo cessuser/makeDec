@@ -2,6 +2,9 @@
 {% load otree static %}
 
 {% block title %}
+{% if player.round_number == 1 %}
+    Practice
+{% endif %}
 {% endblock %}
 
 {% block content %}

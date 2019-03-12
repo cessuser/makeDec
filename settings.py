@@ -18,6 +18,7 @@ SESSION_CONFIGS = [
         'num_demo_participants': 1,
         'app_sequence': ['baseline','questionnaire'],
         'x': 0,
+        'trt': 1,
         'prize': 20,
 
     },
@@ -27,6 +28,7 @@ SESSION_CONFIGS = [
         'num_demo_participants': 1,
         'app_sequence': ['baseline','questionnaire'],
         'x':0,
+        'trt': 2,
         'prize': 10,
 
     },

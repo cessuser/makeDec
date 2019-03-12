@@ -2,6 +2,9 @@
 {% load otree static %}
 
 {% block title %}
+{% if player.round_number == 1 %}
+    Practice
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -772,7 +775,17 @@
 
         });
                  </script>
+{% if player.round_number == 1 %}
+<p>
+    Here you are asked to choose the precise value p, that is the probability of success that would make you choose Bag K for that probability or higher and Bag U otherwise. Once again, this means that if there are more than p balls in Bag K, we will draw the ball from Bag K and you will win {{ prize }} with probability p% and nothing otherwise; if there are less than p balls, we will draw the ball from Bag U and you will win {{ prize }} with unknown probability.
+</p>
+<p>
+    <b>
+        If you do not agree with or understand this mechanism please call the experimenter now.
+    </b>
 
+</p>
+{% endif %}
 
     {% next_button %}
 

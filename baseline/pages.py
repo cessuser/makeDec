@@ -36,27 +36,27 @@ class colorChoose(Page):
 
     def colors_error_message(self, value):
         print('len is ', value.count(','))
-        if value.count(',') != 2 and self.round_number == 1:
-            return 'Please choose 3 colors.'
-        if value.count(',') != 0 and self.round_number == 2:
-            return 'Please choose 1 color.'
-        if value.count(',') != 4 and self.round_number == 3:
+        if value.count(',') != 0 and self.round_number in [1,2]:
+            return 'Please choose 1 colors.'
+        if value.count(',') != 2 and self.round_number == 3:
+            return 'Please choose 3 color.'
+        if value.count(',') != 4 and self.round_number == 4:
             return 'Please choose 5 colors.'
 
     def regions_error_message(self, value):
         print('len is ', value.count(','))
-        if value.count(',') != 2 and self.round_number == 1:
-            return 'Please choose 3 regions.'
-        if value.count(',') != 0 and self.round_number == 2:
-            return 'Please choose 1 region.'
-        if value.count(',') != 4 and self.round_number == 3:
+        if value.count(',') != 0 and self.round_number in [1,2]:
+            return 'Please choose 1 regions.'
+        if value.count(',') != 2 and self.round_number == 3:
+            return 'Please choose 3 region.'
+        if value.count(',') != 4 and self.round_number == 4:
             return 'Please choose 5 regions.'
 
     def vars_for_template(self):
-        col_num = 3
-        if self.round_number == 2:
-            col_num = 1
+        col_num = 1
         if self.round_number == 3:
+            col_num = 3
+        if self.round_number == 4:
             col_num = 5
         return {
             'col_num': col_num,
@@ -67,10 +67,11 @@ class colorChoose(Page):
     def before_next_page(self):
         if self.round_number == 1:
             self.player.participant.vars['cols'] = []
-        if self.session.config['trt'] != 4:
-            self.player.participant.vars['cols'].append(self.player.colors)
-        else:
-            self.player.participant.vars['cols'].append(self.player.regions)
+        if self.round_number > 1:
+            if self.session.config['trt'] != 4:
+                self.player.participant.vars['cols'].append(self.player.colors)
+            else:
+                self.player.participant.vars['cols'].append(self.player.regions)
 
 
 class KUchoices(Page):
@@ -79,25 +80,21 @@ class KUchoices(Page):
                    'U0', 'U1', 'U2','U3', 'U4', 'U5','U6', 'U7', 'U8', 'U9', 'U10']
 
     def vars_for_template(self):
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
+        cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
+        print(cols)
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
             pay = Constants.lose
             lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         col_reg = 'colors'
         if self.session.config['trt'] == 4:
@@ -115,7 +112,8 @@ class KUchoices(Page):
         if self.round_number == 1:
             self.player.participant.vars['tens'] = []
         self.player.ten = self.player.p_tens()
-        self.player.participant.vars['tens'].append(self.player.ten)
+        if self.round_number > 1:
+            self.player.participant.vars['tens'].append(self.player.ten)
 
 
 class KUtensChoices4(Page):
@@ -128,25 +126,21 @@ class KUtensChoices4(Page):
 
     def vars_for_template(self):
         self.player.ten = self.player.p_tens()
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
-
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
         return {
             'cols': cols,
             'winlose': winlose,
@@ -187,24 +181,21 @@ class KUtensChoices2(Page):
 
     def vars_for_template(self):
         self.player.ten = self.player.p_tens()
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         return {
             'cols': cols,
@@ -246,24 +237,21 @@ class KUtensChoices1(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         return {
             'cols': cols,
@@ -306,24 +294,21 @@ class KUtensChoices0(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         return {
             'cols': cols,
@@ -365,24 +350,21 @@ class KUtensChoices3(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         return {
             'cols': cols,
@@ -424,24 +406,21 @@ class KUtensChoices5(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         return {
             'cols': cols,
@@ -483,24 +462,21 @@ class KUtensChoices6(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         return {
             'cols': cols,
@@ -542,24 +518,21 @@ class KUtensChoices7(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         return {
             'cols': cols,
@@ -600,24 +573,21 @@ class KUtensChoices8(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         return {
             'cols': cols,
@@ -658,24 +628,21 @@ class KUtensChoices9(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = ' C1 '
-        if self.session.config['trt'] == 4:
-            cols = " R1 "
-
+        cols = self.player.colors.replace('[', ' ').replace(']', ' ')
+        cols.replace(']', ' ')
         winlose = 'lose'
         pay = Constants.lose
         lose = c(self.session.config['prize'])
-        if self.round_number == 1:
-            cols = "C1, C2, and C3"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, and R3"
+        if self.round_number in [1,2]:
             winlose = 'win'
             pay = c(self.session.config['prize'])
             lose = Constants.lose
         if self.round_number == 3:
-            cols = "C1, C2, C3, C4 and C5"
-            if self.session.config['trt'] == 4:
-                cols = "R1, R2, R3, R4 and R5"
+            cols.replace(',', ' ')
+        if self.round_number == 4:
+            pay = Constants.lose
+            lose = c(self.session.config['prize'])
+            cols.replace(',', ' ')
 
         return {
             'cols': cols,
@@ -746,10 +713,15 @@ class charity(Page):
     def is_displayed(self):
         return self.session.config['trt'] == 4 and self.round_number == 1
 
+class realStart(Page):
+    def is_displayed(self):
+        return self.round_number == 2
+
 page_sequence = [
     Intro1,
     Intro2,
     Intro3,
+    realStart,
     charity,
     colorChoose,
     KUchoices,

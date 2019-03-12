@@ -2,6 +2,9 @@
 {% load otree static %}
 
 {% block title %}
+{% if player.round_number == 1 %}
+    Practice
+{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -105,7 +108,16 @@
 
     </tr>
 </table>
+{% if player.round_number == 1 %}
+<p>
+    As you can see, for each probability of success (left column) you can choose Bag K or U. The probability is expressed in tens, but the following screen will allow you to state the precise value of p for which you prefer one bag to another.
 </p>
+<p>
+    <b>
+        If you do not agree with or understand this mechanism please call the experimenter now.
+    </b>
+</p>
+{% endif %}
 <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script type="text/javascript">
         function allFalse() {

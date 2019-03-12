@@ -4,7 +4,7 @@ from otree.api import (
 )
 import random
 import numpy as np
-
+from django import forms
 
 author = 'Danlin chen'
 
@@ -12,11 +12,22 @@ doc = """
 Your app description
 """
 
-
+SUPPLEMENTS =[
+    ('S1', 'S1'),
+    ('S2', 'S2'),
+    ('S3', 'S3'),
+    ('S4', 'S4'),
+    ('S5', 'S5'),
+    ('S6', 'S6'),
+    ('S7', 'S7'),
+    ('S8', 'S8'),
+    ('S9', 'S9'),
+    ('S10', 'S10')
+]
 class Constants(BaseConstants):
     name_in_url = 'trt5'
     players_per_group = None
-    num_rounds = 6
+    num_rounds = 7
 
     supplements = [' S1 ', ' S1, S3, S5 ', ' S1, S3, S5, S7, S9 ', ' S2,S4,S6,S8,S10 ', 'S2, S4, S6, S7, S8, S9, S10 ', ' S2, S3, S4, S5, S6, S7, S8, S9, S10 ']
     all_supp = ['S1' 'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10']
@@ -32,6 +43,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+    supplements = models.StringField(widget=forms.CheckboxSelectMultiple(choices=SUPPLEMENTS), label=' ')
     K0 = models.BooleanField(widget=widgets.CheckboxInput, label='Bag K')
     K1 = models.BooleanField(widget=widgets.CheckboxInput, label='Bag K')
     K2 = models.BooleanField(widget=widgets.CheckboxInput, label='Bag K')
@@ -135,17 +147,18 @@ class Player(BasePlayer):
         elif self.ten8 != self.ten9:
             p = p+8
         else:
-            p = p + 9
-
+            if self.ten not in [-1,100]:
+                p = p + 9
         self.p = p
 
         if self.round_number == 1:
             self.participant.vars['p'] = []
-        self.participant.vars['p'].append(self.p)
+        else:
+            self.participant.vars['p'].append(self.p)
 
     def set_payoff(self):
         cur_round = random.randint(0, Constants.num_rounds - 1) + 1
-        cur_supplements = Constants.supplements[cur_round-1]
+        cur_supplements = self.participant.vars['supplements'][cur_round-1]
         cur_ten = self.participant.vars['tens'][cur_round-1]
         cur_p = self.participant.vars['p'][cur_round-1]
         cur_q = 0
@@ -154,7 +167,7 @@ class Player(BasePlayer):
         self.chosen_sec_p = cur_ten
         self.chosen_p = cur_p
 
-
+        print('cur_round ', cur_round, 'cur_supp ', cur_supplements, ' cur_ten ', self.participant.vars['tens'], ' ps ', self.participant.vars['p'])
         win = 0
         if cur_ten == -1: # all k
             ten_lst = [i*10 for i in range(0,11)]
@@ -165,11 +178,12 @@ class Player(BasePlayer):
             print('all U')
             diseases = [random.choice(Constants.all_supp) for i in range(0,100)]
             cur_disease = random.choice(diseases)
-            cur_q = random.choice(ten_lst)
+            if cur_disease in cur_supplements:
+                win = 1
 
         if cur_ten not in [-1,100]: # not all u or k
             cur_q = random.randint(0,100)
-            if cur_q >= cur_p: # use k
+            if cur_q > cur_p: # use k
                 win = np.random.choice(np.arange(0, 2), p=[1 - cur_q / 100.0, cur_q / 100.0])
             else:
                 diseases = [random.choice(Constants.all_supp) for i in range(0, 100)]

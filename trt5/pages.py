@@ -18,19 +18,17 @@ class KUchoices(Page):
                    'U0', 'U1', 'U2','U3', 'U4', 'U5','U6', 'U7', 'U8', 'U9', 'U10']
 
     def vars_for_template(self):
-        cols = Constants.supplements[self.round_number-1]
-        col_reg = 'colors'
-        # if self.session.config['trt'] == 4:
-        #     col_reg = 'regions'
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
         return {
             'cols': cols,
-            'var': col_reg
         }
     def before_next_page(self):
+        self.player.ten = self.player.p_tens()
         if self.round_number == 1:
             self.player.participant.vars['tens'] = []
-        self.player.ten = self.player.p_tens()
-        self.player.participant.vars['tens'].append(self.player.ten)
+        else:
+
+            self.player.participant.vars['tens'].append(self.player.ten)
 
 
 class KUtensChoices0(Page):
@@ -45,7 +43,7 @@ class KUtensChoices0(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
 
         return {
             'cols': cols,
@@ -75,7 +73,7 @@ class KUtensChoices1(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
 
         return {
             'cols': cols,
@@ -104,7 +102,7 @@ class KUtensChoices2(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
 
         return {
             'cols': cols,
@@ -133,7 +131,7 @@ class KUtensChoices3(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
 
         return {
             'cols': cols,
@@ -162,7 +160,7 @@ class KUtensChoices4(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements
 
         return {
             'cols': cols,
@@ -191,7 +189,7 @@ class KUtensChoices5(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
 
         return {
             'cols': cols,
@@ -221,7 +219,7 @@ class KUtensChoices6(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
 
         return {
             'cols': cols,
@@ -250,7 +248,7 @@ class KUtensChoices7(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
 
         return {
             'cols': cols,
@@ -279,7 +277,7 @@ class KUtensChoices8(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
 
         return {
             'cols': cols,
@@ -309,7 +307,7 @@ class KUtensChoices9(Page):
         print("p_tens", self.player.p_tens())
         self.player.ten = self.player.p_tens()
 
-        cols = Constants.supplements[self.round_number-1]
+        cols = self.player.supplements.replace('[', ' ').replace(']', ' ')
 
         return {
             'cols': cols,
@@ -347,11 +345,41 @@ class Results(Page):
             'msg': msg
         }
 
+class supplementsChoose(Page):
+    form_model = models.Player
+    form_fields =  ['supplements']
 
+    def vars_for_template(self):
+        return {
+            'col_num': [1,1,3,5,5,7,9][self.round_number-1]
+        }
 
+    def before_next_page(self):
+        self.player.supplements.replace('[', ' ').replace(']', ' ')
+        if self.round_number == 1:
+            self.player.participant.vars['supplements'] = []
+        else:
+            self.player.participant.vars['supplements'].append(self.player.supplements)
 
+    def supplements_error_message(self, value):
+        if value.count(',') != 0 and self.round_number in [1,2]:
+            return 'Please choose 1 colors.'
+        if value.count(',') != 2 and self.round_number == 3:
+            return 'Please choose 3 color.'
+        if value.count(',') != 4 and self.round_number in [4,5]:
+            return 'Please choose 5 colors.'
+        if value.count(',') != 6 and self.round_number == 6:
+            return 'Please choose 7 colors.'
+        if value.count(',') != 8 and self.round_number == 7:
+            return 'Please choose 9 colors.'
+
+class realStart(Page):
+    def is_display(self):
+        return self.round_number == 2
 page_sequence = [
     Intro,
+    realStart,
+    supplementsChoose,
     KUchoices,
     KUtensChoices0,
     KUtensChoices1,

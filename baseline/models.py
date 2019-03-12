@@ -70,7 +70,7 @@ U_KS = [
 class Constants(BaseConstants):
     name_in_url = 'baseline'
     players_per_group = None
-    num_rounds = 3
+    num_rounds = 4
 
     prize = c(20)
     lose = c(0)
@@ -195,33 +195,37 @@ class Player(BasePlayer):
         elif self.ten8 != self.ten9:
             p = p+8
         else:
-            p = p + 9
+            if self.ten not in [-1,100]:
+                p = p + 9
 
         self.p = p
 
         if self.round_number == 1:
             self.participant.vars['p'] = []
-        self.participant.vars['p'].append(self.p)
+        if self.round_number > 1:
+            self.participant.vars['p'].append(self.p)
 
     def set_payoff(self):
         tens = self.participant.vars['tens']
         cols = self.participant.vars['cols']
         p = self.participant.vars['p']
+        assert(len(tens) == 3)
+        assert(len(p) == 3)
         cur_round = random.randint(0, 2)
 
-        self.chosen_sec = [3,1,5][cur_round]
+        self.chosen_sec = [1,3,5][cur_round]
 
         cur_cols = cols[cur_round]
         cur_ten = tens[cur_round]
         cur_p = p[cur_round] # value of p
         self.chosen_sec_p = cur_p
         cur_q = random.randint(0, 100) # choosen quesiton
-        if self.cur_ten == -1:
-            cur_q = random.randint([i*0 for i in range(0,11)])
+        if cur_ten == -1:
+            cur_q = random.sample([i*10 for i in range(0,11)], 1)[0]
 
         self.chosen_p = cur_q
         win = 0
-        print('cur_cols ', cur_cols, ' cur_ten ', cur_ten, ' cur_p', cur_p, ' win ')
+        print('cur_cols ', cols, ' cur_ten ', tens, ' cur_p', p)
 
         if cur_ten == -1:
             print("all k")
@@ -239,9 +243,10 @@ class Player(BasePlayer):
                 num_chosen_cols += balls.count(col)
             win = np.random.choice(np.arange(0, 2), p=[1 - num_chosen_cols / 100.0, num_chosen_cols / 100.0])
         if cur_ten not in [-1,100]:
-            if cur_q >= cur_p: # use k
+            print('cur_q ', cur_q, 'cur_p ', cur_p)
+            if cur_q > cur_p: # use k
                 win = np.random.choice(np.arange(0, 2), p=[1 - cur_q / 100.0, cur_q / 100.0])
-            else:
+            else: # use u
                 ball_cols = ['Yellow', 'Orange', 'Red', 'Purple', 'Pink', 'Blue', 'Green', 'Grey', 'Brown', 'Black']
                 if self.session.config['trt'] == 4:
                     ball_cols = ['Region 1', 'Region 2', 'Region 3', 'Region 4', 'Region 5', 'Region 6', 'Region 7',

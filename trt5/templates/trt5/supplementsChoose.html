@@ -1,0 +1,20 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+{% if player.round_number == 1 %}
+    Practice
+{% endif %}
+    Supplements Choose
+{% endblock %}
+
+{% block content %}
+<p>
+    Please bet on <b>{{ col_num }}</b> supplements.<br>
+    {% formfield player.supplements %}
+
+</p>
+
+
+    {% next_button %}
+{% endblock %}
