@@ -11,6 +11,9 @@ class Intro(Page):
 class MyPage(Page):
     pass
 
+class realStart(Page):
+    def is_displayed(self):
+        return self.round_number == 2
 
 class KUchoices(Page):
     form_model = models.Player
@@ -373,9 +376,7 @@ class supplementsChoose(Page):
         if value.count(',') != 8 and self.round_number == 7:
             return 'Please choose 9 colors.'
 
-class realStart(Page):
-    def is_display(self):
-        return self.round_number == 2
+
 page_sequence = [
     Intro,
     realStart,
