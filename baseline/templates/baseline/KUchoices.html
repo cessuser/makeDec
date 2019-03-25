@@ -9,6 +9,13 @@
 
 {% block content %}
 <p>
+    {% if trt == 3 %}
+    <input value="3" type="hidden" id="trt">
+    <input value={{x}} type="hidden" id="x">
+    <span style="background-color: #FFFF00">The majority of people in a previous similar session has chosen Bag K for every p greater than {{ x }}.</span><br>
+    {% endif %}
+</p>
+<p>
     You have chosen colours {{  cols }}. Now, if the colour of the drawn ball is <b>any of these {{ var }}</b>, you {{ winlose }} the bet. You choose from which bag (U or K) a ball is randomly drawn.
 </p>
 <table border="1" style="text-align:center;">
@@ -118,8 +125,22 @@
     </b>
 </p>
 {% endif %}
+
 <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script type="text/javascript">
+        function allTrue() {
+            $("#id_K0").prop("checked", true);
+            $("#id_K1").prop("checked", true);
+            $("#id_K2").prop("checked", true);
+            $("#id_K3").prop("checked", true);
+            $("#id_K4").prop("checked", true);
+            $("#id_K5").prop("checked", true);
+            $("#id_K6").prop("checked", true);
+            $("#id_K7").prop("checked", true);
+            $("#id_K8").prop("checked", true);
+            $("#id_K9").prop("checked", true);
+            $("#id_K10").prop("checked", true);
+        }
         function allFalse() {
             $("#id_K0").prop("checked", false);
             $("#id_K1").prop("checked", false);
@@ -149,8 +170,12 @@
 
         }
         $(document).ready(function(){
-            allFalse();
-            allFalseU();
+            var trt = $('#trt');
+            var x = $('#x');
+            if (trt.val() == 3){
+                alert('The majority of people in a previous similar session has chosen Bag K for every p greater than '+ x.val());
+            }
+            allTrue();
             $('#id_U0').change(function(){
                     if ($(this).is(':checked')) {
                         $("#id_K9").prop("checked", true);

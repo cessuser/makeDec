@@ -16,7 +16,7 @@
     <tr>
         <th>Outcome if supplement {{ cols }} cures the disease: 30 years in good health</th>
         <th>Outcome if supplement {{ cols }} cures the disease: 1 year in good health</th>
-        <th rowspan="2" colspan="2">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Treatments&emsp;</th>
+        <th rowspan="2" colspan="2">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Treatments&emsp;</th>
         <th>Outcome if supplement {{ cols }} cures the disease: 30 years in good health</th>
         <th>Outcome if supplement {{ cols }} does not cure the disease: 1 year in good health</th>
 
@@ -28,14 +28,14 @@
     <tr>
         <th colspan="2">0</th>
         {% if player.K0 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U0 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
         <th rowspan="20" colspan="2">Unknown</th>
     </tr>
@@ -43,14 +43,14 @@
     <tr>
         <th colspan="2">10</th>
         {% if player.K1 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U1 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
 
     </tr>
@@ -58,42 +58,42 @@
     <tr>
         <th colspan="2">20</th>
         {% if player.K2 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U2 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
     </tr>
 
     <tr id="30">
         <th colspan="2">30</th>
         {% if player.K3 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U3 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
     </tr>
 
     <tr id="40">
         <th colspan="2">40</th>
         {% if player.K4 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U4 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
     </tr>
 
@@ -101,81 +101,81 @@
     <tr>
         <th colspan="2">50</th>
         {% if player.K5 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U5 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
 
     </tr>
     <div id="tens4">
     <tr>
         <th colspan="2">{{ ten1 }}</th>
-        <th><label><input type="checkbox" class="ten" name="ten1" id="id_41k" /> Bag K</label></th>
-        <th><label><input type="checkbox" class="ten" name="ten1U" id="id_41u" /> Bag U</label></th>
+        <th><label><input type="checkbox" class="ten" name="ten1" id="id_41k" /> Treatment K</label></th>
+        <th><label><input type="checkbox" class="ten" name="ten1U" id="id_41u" /> Treatment U</label></th>
     </tr>
         <tr>
         <th colspan="2">{{ ten2 }}</th>
-        <th><label><input type="checkbox" name="ten2" class="ten" id="id_42k" /> Bag K</label></th>
-        <th><label><input type="checkbox" name="ten2U" class="ten" id="id_42u" /> Bag U</label></th>
+        <th><label><input type="checkbox" name="ten2" class="ten" id="id_42k" /> Treatment K</label></th>
+        <th><label><input type="checkbox" name="ten2U" class="ten" id="id_42u" /> Treatment U</label></th>
     </tr>
     <tr>
         <th colspan="2">{{ ten3 }}</th>
-        <th><label><input type="checkbox" name="ten3" class="ten" id="id_43k" /> Bag K</label></th>
-        <th><label><input type="checkbox" name="ten3U" class="ten" id="id_43u" /> Bag U</label></th>
+        <th><label><input type="checkbox" name="ten3" class="ten" id="id_43k" /> Treatment K</label></th>
+        <th><label><input type="checkbox" name="ten3U" class="ten" id="id_43u" /> Treatment U</label></th>
     </tr>
     </tr>
         <tr>
         <th colspan="2">{{ ten4 }}</th>
-        <th><label><input type="checkbox" name="ten4" class="ten" id="id_44k" /> Bag K</label></th>
-        <th><label><input type="checkbox" name="ten4U" id="id_44u" class="ten"/> Bag U</label></th>
+        <th><label><input type="checkbox" name="ten4" class="ten" id="id_44k" /> Treatment K</label></th>
+        <th><label><input type="checkbox" name="ten4U" id="id_44u" class="ten"/> Treatment U</label></th>
     </tr>
     </tr>
         <tr>
         <th colspan="2">{{ ten5 }}</th>
-        <th><label><input type="checkbox" name="ten5" id="id_45k" class="ten"/> Bag K</label></th>
-        <th><label><input type="checkbox" name="ten5U" id="id_45u" class="ten"/> Bag U</label></th>
+        <th><label><input type="checkbox" name="ten5" id="id_45k" class="ten"/> Treatment K</label></th>
+        <th><label><input type="checkbox" name="ten5U" id="id_45u" class="ten"/> Treatment U</label></th>
     </tr>
     </tr>
         <tr>
         <th colspan="2">{{ ten6 }}</th>
-        <th><label><input type="checkbox" name="ten6" id="id_46k" class="ten"/> Bag K</label></th>
-        <th><label><input type="checkbox" name="ten6U" id="id_46u" class="ten"/> Bag U</label></th>
+        <th><label><input type="checkbox" name="ten6" id="id_46k" class="ten"/> Treatment K</label></th>
+        <th><label><input type="checkbox" name="ten6U" id="id_46u" class="ten"/> Treatment U</label></th>
     </tr>
     </tr>
         <tr>
         <th colspan="2">{{ ten7 }}</th>
-        <th><label><input type="checkbox" name="ten7" id="id_47k" class="ten"/> Bag K</label></th>
-        <th><label><input type="checkbox" name="ten7U" id="id_47u" class="ten"/> Bag U</label></th>
+        <th><label><input type="checkbox" name="ten7" id="id_47k" class="ten"/> Treatment K</label></th>
+        <th><label><input type="checkbox" name="ten7U" id="id_47u" class="ten"/> Treatment U</label></th>
     </tr>
     </tr>
         <tr>
         <th colspan="2">{{ ten8 }}</th>
-        <th><label><input type="checkbox" name="ten8" id="id_48k" class="ten"/> Bag K</label></th>
-        <th><label><input type="checkbox" name="ten8U" id="id_48u" class="ten"/> Bag U</label></th>
+        <th><label><input type="checkbox" name="ten8" id="id_48k" class="ten"/> Treatment K</label></th>
+        <th><label><input type="checkbox" name="ten8U" id="id_48u" class="ten"/> Treatment U</label></th>
     </tr>
     </tr>
         <tr>
         <th colspan="2">{{ ten9 }}</th>
-        <th><label><input type="checkbox" name="ten9" id="id_49k" class="ten"/> Bag K</label></th>
-        <th><label><input type="checkbox" name="ten9U" id="id_49u" class="ten"/> Bag U</label></th>
+        <th><label><input type="checkbox" name="ten9" id="id_49k" class="ten"/> Treatment K</label></th>
+        <th><label><input type="checkbox" name="ten9U" id="id_49u" class="ten"/> Treatment U</label></th>
     </tr>
     </div>
     <tr>
         <th colspan="2">60</th>
         {% if player.K6 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U6 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
 
     </tr>
@@ -185,14 +185,14 @@
     <tr>
         <th colspan="2">70</th>
         {% if player.K7 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U7 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
     </tr>
     {% if player.ten == 70 %}
@@ -201,14 +201,14 @@
     <tr>
         <th colspan="2">80</th>
         {% if player.K8 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U8 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
 
     </tr>
@@ -217,14 +217,14 @@
     <tr>
         <th colspan="2">90</th>
         {% if player.K9 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U9 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
 
     </tr>
@@ -234,14 +234,14 @@
     <tr>
         <th colspan="2">100</th>
         {% if player.K10 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment K</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag K</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment K</label></th>
         {% endif %}
         {% if player.U10 == True %}
-            <th><label><input type="checkbox" checked="checked" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" checked="checked" disabled/> Treatment U</label></th>
         {% else %}
-            <th><label><input type="checkbox" disabled/> Bag U</label></th>
+            <th><label><input type="checkbox" disabled/> Treatment U</label></th>
         {% endif %}
 
     </tr>

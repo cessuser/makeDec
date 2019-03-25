@@ -60,8 +60,6 @@ class colorChoose(Page):
             col_num = 5
         return {
             'col_num': col_num,
-            'x': self.session.config['x'],
-            'trt': self.session.config['trt']
         }
 
     def before_next_page(self):
@@ -100,9 +98,11 @@ class KUchoices(Page):
         if self.session.config['trt'] == 4:
             col_reg = 'regions'
         return {
+            'trt': self.session.config['trt'],
             'cols': cols,
             'winlose': winlose,
             'pay': c(pay),
+            'x': self.session.config['x'],
             'prize': c(pay),
             'lose': lose,
             'var': col_reg

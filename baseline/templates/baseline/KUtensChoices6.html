@@ -282,6 +282,18 @@
 </p>
 <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script type="text/javascript">
+        function allTrue() {
+            $("#id_41k").prop("checked", true);
+            $("#id_42k").prop("checked", true);
+            $("#id_43k").prop("checked", true);
+            $("#id_44k").prop("checked", true);
+            $("#id_45k").prop("checked", true);
+            $("#id_46k").prop("checked", true);
+            $("#id_47k").prop("checked", true);
+            $("#id_48k").prop("checked", true);
+            $("#id_49k").prop("checked", true);
+
+        }
         function allFalse() {
             $("#id_41k").prop("checked", false);
             $("#id_42k").prop("checked", false);
@@ -307,6 +319,7 @@
         }
 
         $(document).ready(function(){
+            allTrue();
             $('#id_41u').change(function(){
                     if ($(this).is(':checked')) {
                         $("#id_41k").prop("checked", false);

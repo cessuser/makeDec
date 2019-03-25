@@ -14,11 +14,7 @@
 
 {% block content %}
 <p>
-    {% if trt == 3 %}
-    <input value="3" type="hidden" id="trt">
-    <input value={{x}} type="hidden" id="x">
-    The majority of people in a previous similar session has chosen Bag K for every p greater than {{ x }}.<br>
-    {% endif %}
+
     {% if trt != 4 %}
     Please bet on <b>{{ col_num}}</b> colors.<br>
     {% formfield player.colors %}
@@ -32,13 +28,6 @@
 
     {% next_button %}
 <script type="text/javascript">
-    $(document).ready(function(){
-        var trt = $('#trt');
-        var x = $('#x');
-        if (trt.val() == 3){
-            alert('The majority of people in a previous similar session has chosen Bag K for every p greater than '+ x.val());
-
-    });
 
 </script>
 {% endblock %}
