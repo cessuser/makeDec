@@ -70,7 +70,7 @@ U_KS = [
 class Constants(BaseConstants):
     name_in_url = 'baseline'
     players_per_group = None
-    num_rounds = 4
+    num_rounds = 12
 
     prize = c(20)
     lose = c(0)
@@ -202,18 +202,19 @@ class Player(BasePlayer):
 
         if self.round_number == 1:
             self.participant.vars['p'] = []
-        if self.round_number > 1:
+        if self.round_number % 2 == 0:
             self.participant.vars['p'].append(self.p)
 
     def set_payoff(self):
         tens = self.participant.vars['tens']
         cols = self.participant.vars['cols']
         p = self.participant.vars['p']
-        assert(len(tens) == 3)
-        assert(len(p) == 3)
-        cur_round = random.randint(0, 2)
+        print('++++++++P, ', p)
+        assert(len(tens) == 6)
+        assert(len(p) == 6)
+        cur_round = random.randint(0, 5)
 
-        self.chosen_sec = [1,3,5][cur_round]
+        self.chosen_sec = [2,4,6,8,10,12][cur_round]
 
         cur_cols = cols[cur_round]
         cur_ten = tens[cur_round]
@@ -259,15 +260,16 @@ class Player(BasePlayer):
                 win = np.random.choice(np.arange(0, 2), p=[1 - num_chosen_cols / 100.0, num_chosen_cols / 100.0])
 
         if win == 1:
-            if self.chosen_sec == 3:
+            if self.chosen_sec < 6:
                 self.payoff = self.session.config['prize']
             else:
                 self.payoff = 0
         else:
-            if self.chosen_sec == 3:
+            if self.round_number < 6:
                 self.payoff = 0
             else:
                 self.payoff = self.session.config['prize']
+
 
 
 

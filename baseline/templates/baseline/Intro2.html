@@ -12,6 +12,8 @@
 <p>
     1. <u>Choose the options</u> (in this example, colours) you want to bet on (you may bet on 1, 3, or 5 colours).
 </p>
+
+{% if player.round_number < 7 %}
 <p>
     2. You win if any of your chosen colours are drawn. For each percentage of win (expressed in increments of ten), you have to choose between two bags.
 A Known Bag (K): Contains 100 balls and exactly p of them are your chosen colours. Therefore, the probability of success is p%.
@@ -21,6 +23,17 @@ An Unknown Bag (U): Contains 100 balls with possibly up to 10 colours and the di
     For example, if p = 100, you will most likely prefer Bag K because all balls are coloured and you are then guaranteed to win £{{ pay }}.
 Alternatively, if p = 0, you will most likely prefer Bag U as you might win something, whereas no balls in Bag K are coloured so there is no chance to win with Bag K.
 </p>
+{% else %}
+<p>
+    2. You win if any of your chosen colours are NOT drawn. For each percentage of win (expressed in increments of ten), you have to choose between two bags.
+A Known Bag (K): Contains 100 balls and exactly p of them are your chosen colours. Therefore, the probability of success is 100% - p%.
+An Unknown Bag (U): Contains 100 balls with possibly up to 10 colours and the distribution of colours is unknown. Therefore, you do not know the probability of success.
+    <br>
+    <br>
+    For example, if p = 100, you will most unlikely prefer Bag K because all balls are coloured and you are then guaranteed to lose £{{ pay }}.
+    Alternatively, if p = 0, you will most likely prefer Bag U as you might win something, whereas no balls in Bag K are your chosen colour(s).
+</p>
+{% endif %}
 <p>
     3. You are asked to choose between Bag K or Bag U based on the composition of balls within Bag K.
 </p>

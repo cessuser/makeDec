@@ -36,29 +36,33 @@ class colorChoose(Page):
 
     def colors_error_message(self, value):
         print('len is ', value.count(','))
-        if value.count(',') != 0 and self.round_number in [1,2]:
+        if value.count(',') != 0 and self.round_number in [1,2,7,8]:
             return 'Please choose 1 colors.'
-        if value.count(',') != 2 and self.round_number == 3:
+        if value.count(',') != 2 and self.round_number in [3,4,9,10]:
             return 'Please choose 3 color.'
-        if value.count(',') != 4 and self.round_number == 4:
+        if value.count(',') != 4 and self.round_number in [5,6,11,12]:
             return 'Please choose 5 colors.'
 
     def regions_error_message(self, value):
         print('len is ', value.count(','))
-        if value.count(',') != 0 and self.round_number in [1,2]:
+        if value.count(',') != 0 and self.round_number in [1,2,7,8]:
             return 'Please choose 1 regions.'
-        if value.count(',') != 2 and self.round_number == 3:
+        if value.count(',') != 2 and self.round_number in [3,4,9,10]:
             return 'Please choose 3 region.'
-        if value.count(',') != 4 and self.round_number == 4:
+        if value.count(',') != 4 and self.round_number in [5,6,11,12]:
             return 'Please choose 5 regions.'
 
     def vars_for_template(self):
         col_num = 1
-        if self.round_number == 3:
+        if self.round_number in [3,4,9,10]:
             col_num = 3
-        if self.round_number == 4:
+        if self.round_number in [5,6,11,12]:
             col_num = 5
+        prac = ''
+        if self.round_number % 2 != 0:
+            prac = 'Practice'
         return {
+            'prac': prac,
             'col_num': col_num,
             'trt': self.session.config['trt']
         }
@@ -66,7 +70,7 @@ class colorChoose(Page):
     def before_next_page(self):
         if self.round_number == 1:
             self.player.participant.vars['cols'] = []
-        if self.round_number > 1:
+        if self.round_number % 2 == 0:
             if self.session.config['trt'] != 4:
                 self.player.participant.vars['cols'].append(self.player.colors)
             else:
@@ -83,80 +87,101 @@ class KUchoices(Page):
             cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
         else:
             cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-        print(cols)
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
+
+        winlose = 'win'
+        lose = Constants.lose
+        prize = c(self.session.config['prize'])
+
+        if self.round_number > 6:
+            winlose = 'lose'
+            lose = prize
+            prize = Constants.lose
+
+        if self.round_number not in [1,2,7,8]:
             cols.replace(',', ' ')
 
         col_reg = 'colors'
         if self.session.config['trt'] == 4:
             col_reg = 'regions'
+        prac = ''
+        ins1 = ''
+        ins2 = ''
+        if self.round_number % 2 != 0:
+            prac = 'Practice'
+            ins1 = 'As you can see, for each probability of success (left column) you can choose Bag K or U. The probability is expressed in tens, but the following screen will allow you to state the precise value of p for which you prefer one bag to another.'
+            ins2 = 'If you do not agree with or understand this mechanism please call the experimenter now.'
+
         return {
             'trt': self.session.config['trt'],
             'cols': cols,
             'winlose': winlose,
-            'pay': c(pay),
+            'pay': c(prize),
             'x': self.session.config['x'],
-            'prize': c(pay),
+            'prize': c(prize),
             'lose': lose,
-            'var': col_reg
+            'var': col_reg,
+            'prac': prac,
+            'ins1':ins1,
+            'ins2':ins2
         }
 
     def before_next_page(self):
         if self.round_number == 1:
             self.player.participant.vars['tens'] = []
         self.player.ten = self.player.p_tens()
-        if self.round_number > 1:
+        if self.round_number % 2 == 0:
             self.player.participant.vars['tens'].append(self.player.ten)
 
-
-class KUtensChoices4(Page):
-    form_model = models.Player
-    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
-                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
-
-    def is_displayed(self):
-        return self.player.p_tens() == 40
-
+class KUtens(Page):
     def vars_for_template(self):
         self.player.ten = self.player.p_tens()
         if self.session.config['trt'] == 4:
             cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
         else:
             cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
+
         cols.replace(']', ' ')
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
+        winlose = 'win'
+        lose = Constants.lose
+        prize = c(self.session.config['prize'])
+
+        if self.round_number > 6:
+            winlose = 'lose'
+            lose = prize
+            prize = Constants.lose
+
+        if self.round_number not in [1,2,7,8]:
             cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
+
+        ins1 = ''
+        ins2 = ''
+        if self.round_number % 2 != 0:
+            if self.round_number < 6:
+                ins1 = 'Here you are asked to choose the precise value p, that is the probability of success that would ' \
+                       'make you choose Bag K for that probability or higher and Bag U otherwise. Once again, this means ' \
+                       'that if there are more than p balls in Bag K, we will draw the ball from Bag K and you will win ' \
+                       + str(prize) + ' with probability p% and' + str(lose) + \
+                       ' otherwise; if there are less than p balls, we will draw the ball from Bag U and you will win ' \
+                       + str(prize) + ' with unknown probability.'
+            else:
+                ins1 = 'Here you are asked to choose the precise value p, that is the probability of success that would ' \
+                       'make you choose Bag K for that probability or higher and Bag U otherwise. Once again, this means ' \
+                       'that if there are more than p balls in Bag K, we will draw the ball from Bag K and you will win ' \
+                       + str(prize) + ' with probability p% and' + str(lose) + \
+                       ' otherwise; if there are less than p balls, we will draw the ball from Bag U and you will win ' \
+                       + str(lose) + ' with unknown probability.'
+            ins2 = 'If you do not agree with or understand this mechanism please call the experimenter now.'
+
+
         return {
             'cols': cols,
             'winlose': winlose,
-            'pay': pay,
-            'prize': pay,
+            'pay': prize,
+            'prize': prize,
             'lose': lose,
             'k0': 'checked',
-            'ten1': self.player.ten+1,
-            'ten1_comp':99 - self.player.ten,
+            'ten1': self.player.ten + 1,
+            'ten1_comp': 99 - self.player.ten,
             'ten2': self.player.ten + 2,
             'ten2_comp': 98 - self.player.ten,
             'ten3': self.player.ten + 3,
@@ -173,11 +198,23 @@ class KUtensChoices4(Page):
             'ten8_comp': 92 - self.player.ten,
             'ten9': self.player.ten + 9,
             'ten9_comp': 91 - self.player.ten,
+            'ins1': ins1,
+            'ins2': ins2
 
         }
 
+class KUtensChoices4(KUtens):
+    form_model = models.Player
+    form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
+                   'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
 
-class KUtensChoices2(Page):
+    def is_displayed(self):
+        return self.player.p_tens() == 40
+
+
+
+
+class KUtensChoices2(KUtens):
     form_model = models.Player
     form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
@@ -186,55 +223,8 @@ class KUtensChoices2(Page):
     def is_displayed(self):
         return self.player.p_tens() == 20
 
-    def vars_for_template(self):
-        self.player.ten = self.player.p_tens()
-        if self.session.config['trt'] == 4:
-            cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
-        else:
-            cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
 
-        return {
-            'cols': cols,
-            'winlose': winlose,
-            'pay': c(pay),
-            'prize': c(pay),
-            'lose': lose,
-            'k0': 'checked',
-            'ten1': self.player.ten+1,
-            'ten1_comp':99 - self.player.ten,
-            'ten2': self.player.ten + 2,
-            'ten2_comp': 98 - self.player.ten,
-            'ten3': self.player.ten + 3,
-            'ten3_comp': 97 - self.player.ten,
-            'ten4': self.player.ten + 4,
-            'ten4_comp': 96 - self.player.ten,
-            'ten5': self.player.ten + 5,
-            'ten5_comp': 95 - self.player.ten,
-            'ten6': self.player.ten + 6,
-            'ten6_comp': 94 - self.player.ten,
-            'ten7': self.player.ten + 7,
-            'ten7_comp': 93 - self.player.ten,
-            'ten8': self.player.ten + 8,
-            'ten8_comp': 92 - self.player.ten,
-            'ten9': self.player.ten + 9,
-            'ten9_comp': 91 - self.player.ten,
-
-        }
-
-class KUtensChoices1(Page):
+class KUtensChoices1(KUtens):
     form_model = models.Player
     form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
@@ -242,57 +232,7 @@ class KUtensChoices1(Page):
     def is_displayed(self):
         return self.player.p_tens() == 10
 
-    def vars_for_template(self):
-        print("p_tens", self.player.p_tens())
-        self.player.ten = self.player.p_tens()
-        if self.session.config['trt'] == 4:
-            cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
-        else:
-            cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
-
-        return {
-            'cols': cols,
-            'winlose': winlose,
-            'pay': pay,
-            'prize': pay,
-            'lose': lose,
-            'k0': 'checked',
-            'ten1': self.player.ten+1,
-            'ten1_comp':99 - self.player.ten,
-            'ten2': self.player.ten + 2,
-            'ten2_comp': 98 - self.player.ten,
-            'ten3': self.player.ten + 3,
-            'ten3_comp': 97 - self.player.ten,
-            'ten4': self.player.ten + 4,
-            'ten4_comp': 96 - self.player.ten,
-            'ten5': self.player.ten + 5,
-            'ten5_comp': 95 - self.player.ten,
-            'ten6': self.player.ten + 6,
-            'ten6_comp': 94 - self.player.ten,
-            'ten7': self.player.ten + 7,
-            'ten7_comp': 93 - self.player.ten,
-            'ten8': self.player.ten + 8,
-            'ten8_comp': 92 - self.player.ten,
-            'ten9': self.player.ten + 9,
-            'ten9_comp': 91 - self.player.ten,
-
-        }
-
-
-class KUtensChoices0(Page):
+class KUtensChoices0(KUtens):
     form_model = models.Player
     form_fields = ['ten1', 'ten2','ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
@@ -300,57 +240,7 @@ class KUtensChoices0(Page):
     def is_displayed(self):
         return self.player.p_tens() == 0
 
-    def vars_for_template(self):
-        print("p_tens", self.player.p_tens())
-        self.player.ten = self.player.p_tens()
-
-        if self.session.config['trt'] == 4:
-            cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
-        else:
-            cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
-
-        return {
-            'cols': cols,
-            'winlose': winlose,
-            'pay': pay,
-            'prize': pay,
-            'lose': lose,
-            'k0': 'checked',
-            'ten1': self.player.ten+1,
-            'ten1_comp':99 - self.player.ten,
-            'ten2': self.player.ten + 2,
-            'ten2_comp': 98 - self.player.ten,
-            'ten3': self.player.ten + 3,
-            'ten3_comp': 97 - self.player.ten,
-            'ten4': self.player.ten + 4,
-            'ten4_comp': 96 - self.player.ten,
-            'ten5': self.player.ten + 5,
-            'ten5_comp': 95 - self.player.ten,
-            'ten6': self.player.ten + 6,
-            'ten6_comp': 94 - self.player.ten,
-            'ten7': self.player.ten + 7,
-            'ten7_comp': 93 - self.player.ten,
-            'ten8': self.player.ten + 8,
-            'ten8_comp': 92 - self.player.ten,
-            'ten9': self.player.ten + 9,
-            'ten9_comp': 91 - self.player.ten,
-
-        }
-
-class KUtensChoices3(Page):
+class KUtensChoices3(KUtens):
     form_model = models.Player
     form_fields = ['ten1', 'ten2', 'ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
@@ -358,57 +248,7 @@ class KUtensChoices3(Page):
     def is_displayed(self):
         return self.player.p_tens() == 30
 
-    def vars_for_template(self):
-        print("p_tens", self.player.p_tens())
-        self.player.ten = self.player.p_tens()
-
-        if self.session.config['trt'] == 4:
-            cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
-        else:
-            cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
-
-        return {
-            'cols': cols,
-            'winlose': winlose,
-            'pay': pay,
-            'prize': pay,
-            'lose': lose,
-            'k0': 'checked',
-            'ten1': self.player.ten + 1,
-            'ten1_comp': 99 - self.player.ten,
-            'ten2': self.player.ten + 2,
-            'ten2_comp': 98 - self.player.ten,
-            'ten3': self.player.ten + 3,
-            'ten3_comp': 97 - self.player.ten,
-            'ten4': self.player.ten + 4,
-            'ten4_comp': 96 - self.player.ten,
-            'ten5': self.player.ten + 5,
-            'ten5_comp': 95 - self.player.ten,
-            'ten6': self.player.ten + 6,
-            'ten6_comp': 94 - self.player.ten,
-            'ten7': self.player.ten + 7,
-            'ten7_comp': 93 - self.player.ten,
-            'ten8': self.player.ten + 8,
-            'ten8_comp': 92 - self.player.ten,
-            'ten9': self.player.ten + 9,
-            'ten9_comp': 91 - self.player.ten,
-
-        }
-
-class KUtensChoices5(Page):
+class KUtensChoices5(KUtens):
     form_model = models.Player
     form_fields = ['ten1', 'ten2', 'ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
@@ -416,57 +256,7 @@ class KUtensChoices5(Page):
     def is_displayed(self):
         return self.player.p_tens() == 50
 
-    def vars_for_template(self):
-        print("p_tens", self.player.p_tens())
-        self.player.ten = self.player.p_tens()
-
-        if self.session.config['trt'] == 4:
-            cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
-        else:
-            cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
-
-        return {
-            'cols': cols,
-            'winlose': winlose,
-            'pay': pay,
-            'prize': pay,
-            'lose': lose,
-            'k0': 'checked',
-            'ten1': self.player.ten + 1,
-            'ten1_comp': 99 - self.player.ten,
-            'ten2': self.player.ten + 2,
-            'ten2_comp': 98 - self.player.ten,
-            'ten3': self.player.ten + 3,
-            'ten3_comp': 97 - self.player.ten,
-            'ten4': self.player.ten + 4,
-            'ten4_comp': 96 - self.player.ten,
-            'ten5': self.player.ten + 5,
-            'ten5_comp': 95 - self.player.ten,
-            'ten6': self.player.ten + 6,
-            'ten6_comp': 94 - self.player.ten,
-            'ten7': self.player.ten + 7,
-            'ten7_comp': 93 - self.player.ten,
-            'ten8': self.player.ten + 8,
-            'ten8_comp': 92 - self.player.ten,
-            'ten9': self.player.ten + 9,
-            'ten9_comp': 91 - self.player.ten,
-
-        }
-
-class KUtensChoices6(Page):
+class KUtensChoices6(KUtens):
     form_model = models.Player
     form_fields = ['ten1', 'ten2', 'ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
@@ -474,57 +264,7 @@ class KUtensChoices6(Page):
     def is_displayed(self):
         return self.player.p_tens() == 60
 
-    def vars_for_template(self):
-        print("p_tens", self.player.p_tens())
-        self.player.ten = self.player.p_tens()
-
-        if self.session.config['trt'] == 4:
-            cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
-        else:
-            cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
-
-        return {
-            'cols': cols,
-            'winlose': winlose,
-            'pay': pay,
-            'prize': pay,
-            'lose': lose,
-            'k0': 'checked',
-            'ten1': self.player.ten + 1,
-            'ten1_comp': 99 - self.player.ten,
-            'ten2': self.player.ten + 2,
-            'ten2_comp': 98 - self.player.ten,
-            'ten3': self.player.ten + 3,
-            'ten3_comp': 97 - self.player.ten,
-            'ten4': self.player.ten + 4,
-            'ten4_comp': 96 - self.player.ten,
-            'ten5': self.player.ten + 5,
-            'ten5_comp': 95 - self.player.ten,
-            'ten6': self.player.ten + 6,
-            'ten6_comp': 94 - self.player.ten,
-            'ten7': self.player.ten + 7,
-            'ten7_comp': 93 - self.player.ten,
-            'ten8': self.player.ten + 8,
-            'ten8_comp': 92 - self.player.ten,
-            'ten9': self.player.ten + 9,
-            'ten9_comp': 91 - self.player.ten,
-
-        }
-
-class KUtensChoices7(Page):
+class KUtensChoices7(KUtens):
     form_model = models.Player
     form_fields = ['ten1', 'ten2', 'ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
@@ -532,56 +272,7 @@ class KUtensChoices7(Page):
     def is_displayed(self):
         return self.player.p_tens() == 70
 
-    def vars_for_template(self):
-        print("p_tens", self.player.p_tens())
-        self.player.ten = self.player.p_tens()
-
-        if self.session.config['trt'] == 4:
-            cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
-        else:
-            cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
-
-        return {
-            'cols': cols,
-            'winlose': winlose,
-            'pay': pay,
-            'prize': pay,
-            'lose': lose,
-            'k0': 'checked',
-            'ten1': self.player.ten + 1,
-            'ten1_comp': 99 - self.player.ten,
-            'ten2': self.player.ten + 2,
-            'ten2_comp': 98 - self.player.ten,
-            'ten3': self.player.ten + 3,
-            'ten3_comp': 97 - self.player.ten,
-            'ten4': self.player.ten + 4,
-            'ten4_comp': 96 - self.player.ten,
-            'ten5': self.player.ten + 5,
-            'ten5_comp': 95 - self.player.ten,
-            'ten6': self.player.ten + 6,
-            'ten6_comp': 94 - self.player.ten,
-            'ten7': self.player.ten + 7,
-            'ten7_comp': 93 - self.player.ten,
-            'ten8': self.player.ten + 8,
-            'ten8_comp': 92 - self.player.ten,
-            'ten9': self.player.ten + 9,
-            'ten9_comp': 91 - self.player.ten,
-
-        }
-class KUtensChoices8(Page):
+class KUtensChoices8(KUtens):
     form_model = models.Player
     form_fields = ['ten1', 'ten2', 'ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
@@ -589,113 +280,13 @@ class KUtensChoices8(Page):
     def is_displayed(self):
         return self.player.p_tens() == 80
 
-    def vars_for_template(self):
-        print("p_tens", self.player.p_tens())
-        self.player.ten = self.player.p_tens()
-
-        if self.session.config['trt'] == 4:
-            cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
-        else:
-            cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
-
-        return {
-            'cols': cols,
-            'winlose': winlose,
-            'pay': pay,
-            'prize': pay,
-            'lose': lose,
-            'k0': 'checked',
-            'ten1': self.player.ten + 1,
-            'ten1_comp': 99 - self.player.ten,
-            'ten2': self.player.ten + 2,
-            'ten2_comp': 98 - self.player.ten,
-            'ten3': self.player.ten + 3,
-            'ten3_comp': 97 - self.player.ten,
-            'ten4': self.player.ten + 4,
-            'ten4_comp': 96 - self.player.ten,
-            'ten5': self.player.ten + 5,
-            'ten5_comp': 95 - self.player.ten,
-            'ten6': self.player.ten + 6,
-            'ten6_comp': 94 - self.player.ten,
-            'ten7': self.player.ten + 7,
-            'ten7_comp': 93 - self.player.ten,
-            'ten8': self.player.ten + 8,
-            'ten8_comp': 92 - self.player.ten,
-            'ten9': self.player.ten + 9,
-            'ten9_comp': 91 - self.player.ten,
-
-        }
-class KUtensChoices9(Page):
+class KUtensChoices9(KUtens):
     form_model = models.Player
     form_fields = ['ten1', 'ten2', 'ten3', 'ten4', 'ten5', 'ten6', 'ten7', 'ten8', 'ten9',
                    'ten1U', 'ten2U', 'ten3U', 'ten4U', 'ten5U', 'ten6U', 'ten7U', 'ten8U', 'ten9U']
 
     def is_displayed(self):
         return self.player.p_tens() == 90
-
-    def vars_for_template(self):
-        print("p_tens", self.player.p_tens())
-        self.player.ten = self.player.p_tens()
-
-        if self.session.config['trt'] == 4:
-            cols = str(self.player.regions.replace('[', ' ').replace(']', ' '))
-        else:
-            cols = str(self.player.colors.replace('[', ' ').replace(']', ' '))
-
-        winlose = 'lose'
-        pay = Constants.lose
-        lose = c(self.session.config['prize'])
-        if self.round_number in [1,2]:
-            winlose = 'win'
-            pay = c(self.session.config['prize'])
-            lose = Constants.lose
-        if self.round_number == 3:
-            cols.replace(',', ' ')
-        if self.round_number == 4:
-            pay = Constants.lose
-            lose = c(self.session.config['prize'])
-            cols.replace(',', ' ')
-
-        return {
-            'cols': cols,
-            'winlose': winlose,
-            'pay': pay,
-            'prize': pay,
-            'lose': lose,
-            'k0': 'checked',
-            'ten1': self.player.ten + 1,
-            'ten1_comp': 99 - self.player.ten,
-            'ten2': self.player.ten + 2,
-            'ten2_comp': 98 - self.player.ten,
-            'ten3': self.player.ten + 3,
-            'ten3_comp': 97 - self.player.ten,
-            'ten4': self.player.ten + 4,
-            'ten4_comp': 96 - self.player.ten,
-            'ten5': self.player.ten + 5,
-            'ten5_comp': 95 - self.player.ten,
-            'ten6': self.player.ten + 6,
-            'ten6_comp': 94 - self.player.ten,
-            'ten7': self.player.ten + 7,
-            'ten7_comp': 93 - self.player.ten,
-            'ten8': self.player.ten + 8,
-            'ten8_comp': 92 - self.player.ten,
-            'ten9': self.player.ten + 9,
-            'ten9_comp': 91 - self.player.ten,
-        }
-
 
 class OutcomeWait(WaitPage):
 
@@ -715,7 +306,7 @@ class Intro1(Page):
 
 class Intro2(Page):
     def is_displayed(self):
-        return self.round_number == 1
+        return self.round_number % 2 != 0
 
     def vars_for_template(self):
         return {
@@ -740,7 +331,7 @@ class charity(Page):
 
 class realStart(Page):
     def is_displayed(self):
-        return self.round_number == 2
+        return self.round_number % 2 == 0
 
 page_sequence = [
     Intro1,

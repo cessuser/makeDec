@@ -2,9 +2,7 @@
 {% load otree static %}
 
 {% block title %}
-{% if player.round_number == 1 %}
-    Practice
-{% endif %}
+{{ prac }}
 {% endblock %}
 
 {% block content %}
@@ -84,7 +82,7 @@
         <th>60</th>
         <th>40</th>
         <th><label><input type="checkbox" name="K6" id="id_K6" />Bag K</label></th>
-        <th><label><input type="checkbox" name="KU" id="id_U6" />Bag U</label></th>
+        <th><label><input type="checkbox" name="U6" id="id_U6" />Bag U</label></th>
 
     </tr>
     <tr>
@@ -115,16 +113,14 @@
 
     </tr>
 </table>
-{% if player.round_number == 1 %}
 <p>
-    As you can see, for each probability of success (left column) you can choose Bag K or U. The probability is expressed in tens, but the following screen will allow you to state the precise value of p for which you prefer one bag to another.
+    {{ ins1 }}
 </p>
 <p>
     <b>
-        If you do not agree with or understand this mechanism please call the experimenter now.
+        {{ ins2 }}
     </b>
 </p>
-{% endif %}
 
 <script type="text/javascript" src="//code.jquery.com/jquery-1.10.2.js"></script>
         <script type="text/javascript">
@@ -313,7 +309,7 @@
                     }
             });
             $('#id_U6').change(function(){
-                    if ($(this).is(':checked')) {
+                    if ($(this).is(':checked') == true) {
                         $("#id_U0").prop("checked", true);
                         $("#id_U1").prop("checked", true);
                         $("#id_U2").prop("checked", true);

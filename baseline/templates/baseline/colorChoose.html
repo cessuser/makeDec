@@ -2,9 +2,7 @@
 {% load otree static %}
 
 {% block title %}
-{% if player.round_number == 1 %}
-    Practice
-{% endif %}
+{{ prac }}
 {% if trt != 4 %}
     Color Choose
 {% else %}
